@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35806.99 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelComparatorAPI", "ExcelComparatorAPI.csproj", "{E90DD0DE-CEF4-4445-B6E5-AD2AE559FDBA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E90DD0DE-CEF4-4445-B6E5-AD2AE559FDBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E90DD0DE-CEF4-4445-B6E5-AD2AE559FDBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E90DD0DE-CEF4-4445-B6E5-AD2AE559FDBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E90DD0DE-CEF4-4445-B6E5-AD2AE559FDBA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FC8BB98C-2AEA-4D8F-9B2F-F6B7CE6B78BB}
+	EndGlobalSection
+EndGlobal
