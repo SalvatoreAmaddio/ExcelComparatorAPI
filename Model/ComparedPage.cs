@@ -1,5 +1,4 @@
 ﻿using DiffPlex.DiffBuilder.Model;
-using ExcelComparatorAPI.Utils;
 
 namespace ExcelComparatorAPI.Model;
 
@@ -11,12 +10,8 @@ public class ComparedPage
 
     public ComparedPage(string sheetName, List<DiffPiece>? originalOldLines, List<DiffPiece>? originalNewLines)
     {
-        SheetName = sheetName;
-        
+        SheetName = sheetName;        
         OriginalOldLines = originalOldLines;
-        OriginalOldLines?.TruncateText();
-
         OriginalNewLines = originalNewLines;
-        OriginalNewLines?.TruncateText();
     }
 }
