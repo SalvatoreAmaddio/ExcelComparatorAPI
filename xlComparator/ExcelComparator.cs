@@ -18,12 +18,9 @@ public class ExcelComparator
 
         await ExcelReader.CalculateDifferencesAsync(comparableSheets);
 
-        List<ComparedPage> comparedPages = comparableSheets.Select(s=> new ComparedPage() 
-        { 
-            SheetName = s.Name, 
-            OriginalOldLines = s.SideBySideResult?.OldText.Lines.ToList(),
-            OriginalNewLines = s.SideBySideResult?.NewText.Lines.ToList(),
-        }).ToList();
+        List<ComparedPage> comparedPages = comparableSheets.Select(s=> new ComparedPage(s.Name, 
+                                                                                        s.SideBySideResult?.OldText.Lines.ToList(), 
+                                                                                        s.SideBySideResult?.NewText.Lines.ToList())).ToList();
 
         return comparedPages;
     }
