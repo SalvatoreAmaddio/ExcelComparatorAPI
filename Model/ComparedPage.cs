@@ -22,7 +22,7 @@ public class ComparedPage
 
         await comparableSheets.CalculateDifferencesAsync();
 
-        return comparableSheets.Select(sheet => new ComparedPage(sheet.Name,
+        return comparableSheets.Where(sheet => !sheet.HasChanges).Select(sheet => new ComparedPage(sheet.Name,
                                                                  sheet.SideBySideResult?.OldText.Lines.ToList(),
                                                                  sheet.SideBySideResult?.NewText.Lines.ToList())).ToList();
     }
