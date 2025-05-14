@@ -6,7 +6,8 @@ namespace ExcelComparatorAPI.Utils
     {
         public static void DeleteFile(string path) 
         {
-            File.Delete(path);
+            if (File.Exists(path))
+                File.Delete(path);
         }
 
         public static async Task SaveAsJSONAsync(object obj)

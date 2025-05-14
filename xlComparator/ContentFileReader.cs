@@ -18,7 +18,7 @@ public class ContentFileReader
             return ReadXL(stream);
         }
 
-        return [];
+        throw new Exception("The file is not a valid excel file");
     }
 
     private static List<SpreadshetContent> ReadXL(FileStream stream)
