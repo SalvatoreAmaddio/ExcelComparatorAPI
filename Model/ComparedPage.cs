@@ -15,14 +15,14 @@ public class ComparedPage
         OriginalOldLines = originalOldLines;
         OriginalNewLines = originalNewLines;
     }
-
+    
     public static async Task<List<ComparedPage>> CreateAsync(List<SpreadshetContent> wrkbkContent1, List<SpreadshetContent> wrkbkContent2)
     {
         IEnumerable<ComparableSheet> comparableSheets = await wrkbkContent1.JoinWorkbooksAsync(wrkbkContent2);
 
         await comparableSheets.CalculateDifferencesAsync();
 
-        return comparableSheets.Where(sheet => !sheet.HasChanges).Select(sheet => new ComparedPage(sheet.Name,
+        return comparableSheets.Where(sheet => sheet.HasChanges).Select(sheet => new ComparedPage(sheet.Name,
                                                                  sheet.SideBySideResult?.OldText.Lines.ToList(),
                                                                  sheet.SideBySideResult?.NewText.Lines.ToList())).ToList();
     }
