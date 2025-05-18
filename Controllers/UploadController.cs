@@ -17,16 +17,20 @@ public class UploadController : ControllerBase
             return BadRequest("Both files must be provided.");
 
         string tempPath = Path.GetTempPath();
-        string path1 = Path.Combine(tempPath, request.File1.FileName);
-        string path2 = Path.Combine(tempPath, request.File2.FileName);
+
+        Guid ui1 = Guid.NewGuid();
+        Guid ui2 = Guid.NewGuid();
+
+        string path1 = Path.Combine(tempPath, $"{ui1}_{request.File1.FileName}");
+        string path2 = Path.Combine(tempPath, $"{ui2}_{request.File2.FileName}");
 
         try
         {
             Task copyFile1Task = Task.Run(async () =>
-    {
-        using FileStream stream = new(path1, FileMode.Create);
-        await request.File1.CopyToAsync(stream);
-    });
+            {
+                using FileStream stream = new(path1, FileMode.Create);
+                await request.File1.CopyToAsync(stream);
+            });
 
             Task copyFile2Task = Task.Run(async () =>
             {
@@ -48,14 +52,21 @@ public class UploadController : ControllerBase
 
             ComparedFile fileData = new(request.File1.FileName, request.File2.FileName, comparedPages);
 
-            //await FileManager.SaveAsJSONAsync(fileData); // for debug
-            return Ok(new { message = "Files received and saved.", data = fileData });
+            if (fileData.Pages.Count == 0)
+            {
+                return NoContent();
+            }
+            else
+            {
+                //await FileManager.SaveAsJSONAsync(fileData); // for debug
+                return Ok(new { message = "Files received and processed.", data = fileData });
+            }
         }
         catch (Exception ex)
         {
             return StatusCode(500, $"An error occurred: {ex.Message}");
         }
-        finally 
+        finally
         {
             FileManager.DeleteFile(path1);
             FileManager.DeleteFile(path2);
