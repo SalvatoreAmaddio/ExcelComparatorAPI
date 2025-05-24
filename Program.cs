@@ -29,7 +29,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(policy =>
     {
         policy
-            .AllowAnyOrigin()    // or use .WithOrigins("http://localhost:3000") for safety
+            .AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader();
     });
@@ -49,7 +49,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors(); // <- MUST be before UseAuthorization
+app.UseCors();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

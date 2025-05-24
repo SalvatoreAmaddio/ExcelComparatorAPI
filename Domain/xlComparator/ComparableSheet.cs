@@ -1,7 +1,7 @@
 ﻿using DiffPlex.DiffBuilder.Model;
 using DiffPlex.DiffBuilder;
 
-namespace ExcelComparatorAPI.xlComparator;
+namespace ExcelComparatorAPI.Domain.xlComparator;
 
 public class ComparableSheet(string name, string oldContent, string newContent)
 {

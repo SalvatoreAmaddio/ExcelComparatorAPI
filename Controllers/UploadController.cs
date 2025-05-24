@@ -1,6 +1,6 @@
-﻿using ExcelComparatorAPI.Model;
+﻿using ExcelComparatorAPI.Domain.Model;
+using ExcelComparatorAPI.Domain.xlComparator;
 using ExcelComparatorAPI.Utils;
-using ExcelComparatorAPI.xlComparator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExcelComparatorAPI.Controllers;
@@ -16,13 +16,16 @@ public class UploadController : ControllerBase
         if (request.File1 == null || request.File2 == null)
             return BadRequest("Both files must be provided.");
 
+        if (!request.File1.FileName.IsExcelFile() || !request.File2.FileName.IsExcelFile())
+            return BadRequest("One or both of the files provided are not valid excel files.");
+
         string tempPath = Path.GetTempPath();
 
-        Guid ui1 = Guid.NewGuid();
-        Guid ui2 = Guid.NewGuid();
+        Guid guid1 = Guid.NewGuid();
+        Guid guid2 = Guid.NewGuid();
 
-        string path1 = Path.Combine(tempPath, $"{ui1}_{request.File1.FileName}");
-        string path2 = Path.Combine(tempPath, $"{ui2}_{request.File2.FileName}");
+        string path1 = Path.Combine(tempPath, $"{guid1}_{request.File1.FileName}");
+        string path2 = Path.Combine(tempPath, $"{guid2}_{request.File2.FileName}");
 
         try
         {
@@ -40,26 +43,26 @@ public class UploadController : ControllerBase
 
             await Task.WhenAll(copyFile1Task, copyFile2Task);
 
-            Task<List<SpreadshetContent>> readExcelTask1 = Task.Run(() => ContentFileReader.Read(path1));
-            Task<List<SpreadshetContent>> readExcelTask2 = Task.Run(() => ContentFileReader.Read(path2));
+            Task<List<SpreadshetContent>> readXlTask1 = Task.Run(() => XLContentFileReader.Read(path1));
+            Task<List<SpreadshetContent>> readXlTask2 = Task.Run(() => XLContentFileReader.Read(path2));
 
-            await Task.WhenAll(readExcelTask1, readExcelTask2);
+            await Task.WhenAll(readXlTask1, readXlTask2);
 
-            List<SpreadshetContent> workbookContent1 = readExcelTask1.Result;
-            List<SpreadshetContent> workbookContent2 = readExcelTask2.Result;
+            List<SpreadshetContent> workbookContent1 = readXlTask1.Result;
+            List<SpreadshetContent> workbookContent2 = readXlTask2.Result;
 
-            List<ComparedPage> comparedPages = await ComparedPage.CreateAsync(workbookContent1, workbookContent2);
+            List<SheetComparisonResult> comparedSheets = await SheetComparisonResult.CompareAsync(workbookContent1, workbookContent2);
 
-            ComparedFile fileData = new(request.File1.FileName, request.File2.FileName, comparedPages);
+            ComparedWorkbook comparedWorkbook = new(request.File1.FileName, request.File2.FileName, comparedSheets);
 
-            if (fileData.Pages.Count == 0)
+            if (comparedWorkbook.HasChanges)
             {
-                return NoContent();
+                //await FileManager.SaveAsJSONAsync(fileData); // for debug purposes
+                return Ok(new { message = "Files received and processed.", data = comparedWorkbook });
             }
             else
             {
-                //await FileManager.SaveAsJSONAsync(fileData); // for debug
-                return Ok(new { message = "Files received and processed.", data = fileData });
+                return NoContent();
             }
         }
         catch (Exception ex)

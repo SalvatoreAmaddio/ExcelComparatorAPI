@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using System.Text;
 
-namespace ExcelComparatorAPI.xlComparator;
+namespace ExcelComparatorAPI.Domain.xlComparator;
 
-public static class Extentions
+public static class XlComparatorExtentions
 {
     public static string? ExtractName(this string filePath, bool removeExt = false)
     {
@@ -102,7 +102,7 @@ public static class Extentions
 
     public static Task<IEnumerable<ComparableSheet>> JoinWorkbooksAsync(this List<SpreadshetContent> workbookContent1, List<SpreadshetContent> workbookContent2)
     {
-        return Task.Run(() => JoinWorkbooks(workbookContent1, workbookContent2));
+        return Task.Run(() => workbookContent1.JoinWorkbooks(workbookContent2));
     }
 
     public static IEnumerable<ComparableSheet> JoinWorkbooks(this List<SpreadshetContent> workbookContent1, List<SpreadshetContent> workbookContent2)

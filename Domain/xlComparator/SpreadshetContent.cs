@@ -1,4 +1,4 @@
-﻿namespace ExcelComparatorAPI.xlComparator;
+﻿namespace ExcelComparatorAPI.Domain.xlComparator;
 
 public class SpreadshetContent(int index, string name, string content)
 {

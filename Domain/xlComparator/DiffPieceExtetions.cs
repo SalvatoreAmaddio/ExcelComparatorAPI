@@ -1,6 +1,6 @@
 ﻿using DiffPlex.DiffBuilder.Model;
 
-namespace ExcelComparatorAPI.xlComparator;
+namespace ExcelComparatorAPI.Domain.xlComparator;
 
 public static class DiffPieceExtetions
 {

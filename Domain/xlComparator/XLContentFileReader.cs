@@ -1,9 +1,9 @@
 ﻿using ExcelDataReader;
 using System.Data;
 
-namespace ExcelComparatorAPI.xlComparator;
+namespace ExcelComparatorAPI.Domain.xlComparator;
 
-public class ContentFileReader
+public class XLContentFileReader
 {
     public static List<SpreadshetContent> Read(string filePath)
     {
