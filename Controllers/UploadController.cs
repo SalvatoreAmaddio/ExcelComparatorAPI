@@ -67,7 +67,7 @@ public class UploadController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(500, $"An error occurred: {ex.Message}");
+            return StatusCode(500, new { message = $"An error occurred: {ex.Message}" });
         }
         finally
         {
